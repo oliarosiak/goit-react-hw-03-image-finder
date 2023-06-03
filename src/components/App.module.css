@@ -1,4 +1,4 @@
-.Container{
+.App{
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -7,3 +7,11 @@
     font-size: 40px;
     color: #010101;
 }
+
+
+/* .App {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 16px;
+    padding-bottom: 24px;
+} */
