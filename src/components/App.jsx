@@ -4,6 +4,7 @@ import css from './App.module.css';
 import Searchbar from "./searchbar/Searchbar";
 import ImageGallery from "./imageGallery/ImageGallery";
 import ImageGalleryItem from "./imageGalleryItem/ImageGalleryItem";
+import Button from "./button/Button";
 
 class App extends Component{
 
@@ -18,6 +19,7 @@ class App extends Component{
         <ImageGallery>
           <ImageGalleryItem />
         </ImageGallery>
+        <Button />
 
         
 
