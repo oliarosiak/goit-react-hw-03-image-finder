@@ -8,6 +8,8 @@ import ImageGalleryItem from "./imageGalleryItem/ImageGalleryItem";
 class App extends Component{
 
   render() {
+
+    console.log('Проба 1');
     
     return (
       <div className={css.Container} >
@@ -25,3 +27,4 @@ class App extends Component{
 }
 
 export default App;
+
