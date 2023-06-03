@@ -10,6 +10,7 @@ class App extends Component{
   render() {
 
     console.log('Проба 1');
+    console.log('Проба 2');
     
     return (
       <div className={css.Container} >
