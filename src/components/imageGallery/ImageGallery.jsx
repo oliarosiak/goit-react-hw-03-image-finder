@@ -4,7 +4,6 @@ import css from './ImageGallery.module.css';
 class ImageGallery extends Component{
 
     render() {
-
         const { children } = this.props;
         
         return (
