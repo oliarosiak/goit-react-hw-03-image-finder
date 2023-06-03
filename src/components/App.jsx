@@ -6,6 +6,7 @@ import ImageGallery from "./imageGallery/ImageGallery";
 import ImageGalleryItem from "./imageGalleryItem/ImageGalleryItem";
 import Button from "./button/Button";
 import Loader from "./loader/Loader";
+import Modal from "./modal/Modal";
 
 class App extends Component{
 
@@ -21,6 +22,7 @@ class App extends Component{
         </ImageGallery>
         <Button />  
 
+        {/* <Modal /> */}
       </div>
     )
   }
