@@ -8,8 +8,11 @@ class Modal extends Component{
 
     render() {
 
-        const { children } = this.props;
-        
+        const { largeImage, children } = this.props;
+        console.log('largeImage=>', largeImage)
+        const { largeImageURL } = largeImage;
+        console.log('largeImageURL=>', largeImageURL);
+
         return createPortal(
             <div className={css.Overlay} >
                 <div className={css.Modal} >
@@ -25,6 +28,7 @@ export default Modal;
 
 
 /**
+ * largeImage
  * Опис компонента <Modal>
  * Під час кліку на елемент галереї повинно відкриватися модальне вікно з темним оверлеєм і 
  * відображатися велика версія зображення. Модальне вікно повинно закриватися по натисканню 

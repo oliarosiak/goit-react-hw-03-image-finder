@@ -55,14 +55,14 @@ class App extends Component{
 
   render() {    
     const { images, showModal } = this.state;    
-
+    // console.log(images);
     return (
       <div className={css.App} >
         <Loader /> 
 
         <button type="button" onClick={this.toggleModal}>Open</button>
         
-        {showModal && <Modal>
+        {showModal && <Modal largeImage={images}>
           <button type="button" onClick={this.toggleModal}>Close</button>
         </Modal>}
 
@@ -70,9 +70,8 @@ class App extends Component{
         <ImageGallery>
           <ImageGalleryItem arrayOfImages={images} />
         </ImageGallery>
-        <Button />  
-
-        {/* <Modal /> */}
+        <Button /> 
+       
       </div>
     )
   }
