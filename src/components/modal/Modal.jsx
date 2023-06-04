@@ -1,16 +1,22 @@
 import React, { Component } from "react";
+import { createPortal } from "react-dom";
 import css from './Modal.module.css';
+
+const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component{
 
     render() {
+
+        const { children } = this.props;
         
-        return (
+        return createPortal(
             <div className={css.Overlay} >
                 <div className={css.Modal} >
+                    {children}
                     <img src="" alt="" />
                 </div>
-            </div>            
+            </div>, modalRoot,            
         )
     }
 }

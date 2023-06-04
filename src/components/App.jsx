@@ -7,7 +7,7 @@ import ImageGallery from "./imageGallery/ImageGallery";
 import ImageGalleryItem from "./imageGalleryItem/ImageGalleryItem";
 import Button from "./button/Button";
 import Loader from "./loader/Loader";
-// import Modal from "./modal/Modal";
+import Modal from "./modal/Modal";
 
 
 /**
@@ -31,6 +31,7 @@ class App extends Component{
   state = {
     images: [],
     error: null,
+    showModal: false,
   }
 
   async componentDidMount() {
@@ -45,14 +46,25 @@ class App extends Component{
     }
   }
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  }
 
 
   render() {    
-    const { images } = this.state;    
+    const { images, showModal } = this.state;    
 
     return (
       <div className={css.App} >
-        <Loader />       
+        <Loader /> 
+
+        <button type="button" onClick={this.toggleModal}>Open</button>
+        
+        {showModal && <Modal>
+          <button type="button" onClick={this.toggleModal}>Close</button>
+        </Modal>}
 
         <Searchbar />        
         <ImageGallery>
