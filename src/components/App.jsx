@@ -32,6 +32,7 @@ class App extends Component{
     images: [],
     error: null,
     showModal: false,
+    largeImage: '',
   }
 
   async componentDidMount() {
@@ -52,21 +53,27 @@ class App extends Component{
     }));
   }
 
+  onImageClick = url => {
+    console.log('url', url);
+    this.setState({ largeImage: url });
+    this.toggleModal();
+  }
+
 
   render() {    
-    const { images, showModal } = this.state;    
-    // console.log(images);
+    const { images, showModal, largeImage } = this.state;    
+    console.log(this.state.largeImage);
+
     return (
       <div className={css.App} >
         <Loader /> 
 
-        <button type="button" onClick={this.toggleModal}>Open</button>
-        
-        {showModal && <Modal onClose={this.toggleModal} largeImage={images} />}
+        {/* <button type="button" onClick={this.toggleModal}>Open</button>         */}
+        {showModal && <Modal onClose={this.toggleModal} largeImage={largeImage} />}
 
         <Searchbar />        
         <ImageGallery>
-          <ImageGalleryItem arrayOfImages={images} />
+          <ImageGalleryItem arrayOfImages={images} onClick={this.onImageClick} />
         </ImageGallery>
         <Button /> 
        

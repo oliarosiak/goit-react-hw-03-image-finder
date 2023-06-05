@@ -32,15 +32,12 @@ class Modal extends Component{
     }
 
     render() {        
-        const { onClose, largeImage, children } = this.props;
-        // console.log('largeImage=>', largeImage)
-        const { largeImageURL } = largeImage;
-        // console.log('largeImageURL=>', largeImageURL);
+        const { largeImage } = this.props;     
 
         return createPortal(
             <div onClick={this.handleOverlayClick} className={css.Overlay} >
                 <div className={css.Modal} >
-                    <img src="" alt="" />
+                    <img src={largeImage} alt="big image picture" />
                 </div>
             </div>, modalRoot,            
         )
