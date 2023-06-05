@@ -37,22 +37,47 @@ class App extends Component{
     search: '',
   }
 
-  async componentDidMount() {
+  async componentDidUpdate(_, prevState) {
 
-    this.setState({ isLoading: true });
+    console.log('до if => prevState.search =>', prevState.search);
+    console.log('до if => this.state.search =>', this.state.search);
 
-    try {
-      const response = await axios.get('https://pixabay.com/api/?q=cat&page=1&key=25738423-b3273d9a56f64cc8a00238b49&image_type=photo&orientation=horizontal&per_page=12');
-      this.setState({images: response.data.hits})
-      // const { id, webformatURL, largeImageURL } = response.data.hits;
-      //  console.log({ id, webformatURL, largeImageURL })
-      // console.log(response.data.hits);
-    } catch(error) {
-      console.error('error.message =>', error.message);
-    } finally {
-      this.setState({ isLoading: false });
+    if (prevState.search !== this.state.search) {
+      console.log('в if => state.search', this.state.search);
+      this.setState({ isLoading: true });
+
+      try {            
+        const response = await axios.get(`https://pixabay.com/api/?q=${this.state.search}&page=1&key=25738423-b3273d9a56f64cc8a00238b49&image_type=photo&orientation=horizontal&per_page=12`);
+      // const response = await axios.get('https://pixabay.com/api/?q=cat&page=1&key=25738423-b3273d9a56f64cc8a00238b49&image_type=photo&orientation=horizontal&per_page=12');
+        this.setState({ images: response.data.hits });
+      } catch(error) {
+        console.error('error.message =>', error.message);
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
   }
+
+
+
+  
+
+  // async componentDidMount() {
+
+  //   this.setState({ isLoading: true });
+
+  //   try {
+  //     const response = await axios.get('https://pixabay.com/api/?q=cat&page=1&key=25738423-b3273d9a56f64cc8a00238b49&image_type=photo&orientation=horizontal&per_page=12');
+  //     this.setState({images: response.data.hits})
+  //     // const { id, webformatURL, largeImageURL } = response.data.hits;
+  //     //  console.log({ id, webformatURL, largeImageURL })
+  //     // console.log(response.data.hits);
+  //   } catch(error) {
+  //     console.error('error.message =>', error.message);
+  //   } finally {
+  //     this.setState({ isLoading: false });
+  //   }
+  // }
 
   toggleModal = () => {
     this.setState(({ showModal }) => ({
@@ -80,13 +105,13 @@ class App extends Component{
         {isLoading
           ? <Loader />
           : <ImageGallery>
-              <ImageGalleryItem arrayOfImages={images} onClick={this.onImageClick} />
+            <ImageGalleryItem arrayOfImages={images} onClick={this.onImageClick} />
           </ImageGallery>
-        }        
+        }
         <Button />
 
         {/* <button type="button" onClick={this.toggleModal}>Open</button>         */}
-        {showModal && <Modal onClose={this.toggleModal} largeImage={largeImage} />}       
+        {showModal && <Modal onClose={this.toggleModal} largeImage={largeImage} />}
       </div>
     )
   }
