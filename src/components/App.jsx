@@ -34,6 +34,7 @@ class App extends Component{
     error: null,
     showModal: false,
     largeImage: '',
+    search: '',
   }
 
   async componentDidMount() {
@@ -65,14 +66,16 @@ class App extends Component{
     this.toggleModal();
   }
 
+  handleOnSearchbarSubmit = search => {  
+    this.setState({ search });
+  }
+
 
   render() {    
-    const { images, isLoading, showModal, largeImage } = this.state;    
-    // console.log('this.state.images =>', images);
-
+    const { images, isLoading, showModal, largeImage } = this.state; 
     return (
       <div className={css.App} >
-        <Searchbar />
+        <Searchbar onSubmit={this.handleOnSearchbarSubmit} />
         
         {isLoading
           ? <Loader />
