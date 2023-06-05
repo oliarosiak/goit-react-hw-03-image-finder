@@ -6,17 +6,40 @@ const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component{
 
-    render() {
+    componentDidMount() {
+        // console.log('Mount');        
+        window.addEventListener('keydown', this.handleEscKey);
+    }
 
-        const { largeImage, children } = this.props;
-        console.log('largeImage=>', largeImage)
+    componentWillUnmount() {
+        // console.log('Unmount')
+        window.removeEventListener('keydown', this.handleEscKey);
+    }
+
+    handleEscKey = event => {
+        // console.log('event.code', event.code);
+        if (event.code === 'Escape') {            
+            this.props.onClose();
+        }
+    }
+
+    handleOverlayClick = event => {
+        // console.log('event.currentTarget', event.currentTarget);
+        // console.log('event.target', event.target);
+        if (event.currentTarget === event.target) {
+            this.props.onClose();
+        }
+    }
+
+    render() {        
+        const { onClose, largeImage, children } = this.props;
+        // console.log('largeImage=>', largeImage)
         const { largeImageURL } = largeImage;
-        console.log('largeImageURL=>', largeImageURL);
+        // console.log('largeImageURL=>', largeImageURL);
 
         return createPortal(
-            <div className={css.Overlay} >
+            <div onClick={this.handleOverlayClick} className={css.Overlay} >
                 <div className={css.Modal} >
-                    {children}
                     <img src="" alt="" />
                 </div>
             </div>, modalRoot,            

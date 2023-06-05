@@ -62,9 +62,7 @@ class App extends Component{
 
         <button type="button" onClick={this.toggleModal}>Open</button>
         
-        {showModal && <Modal largeImage={images}>
-          <button type="button" onClick={this.toggleModal}>Close</button>
-        </Modal>}
+        {showModal && <Modal onClose={this.toggleModal} largeImage={images} />}
 
         <Searchbar />        
         <ImageGallery>
