@@ -62,7 +62,7 @@ class App extends Component{
 
   render() {    
     const { images, showModal, largeImage } = this.state;    
-    console.log(this.state.largeImage);
+    console.log(images);
 
     return (
       <div className={css.App} >
