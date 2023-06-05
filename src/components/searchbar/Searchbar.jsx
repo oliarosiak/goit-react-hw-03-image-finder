@@ -15,7 +15,7 @@ class Searchbar extends Component{
     }
 
     handleFormSubmite = event => {
-        event.preventDefault(); 
+        event.preventDefault();         
 
         if (this.state.search.trim() === '') {
             alert('Please enter a search query');

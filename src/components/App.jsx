@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import css from './App.module.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { fetchPixabeyRequest } from './api/pixabayApi.js';
 import Searchbar from "./searchbar/Searchbar";
@@ -22,15 +24,23 @@ class App extends Component{
     totalHits: null,
   }
 
-  async componentDidUpdate(_, prevState) {
+  componentDidUpdate(_, prevState) {
 
     if (this.state.page !== prevState.page || prevState.search !== this.state.search) {      
       this.setState({ isLoading: true });
-
+      
       fetchPixabeyRequest(this.state.search, this.state.page)
-        .then(pictures => this.setState({images: pictures.hits, totalHits: pictures.totalHits}))
-        .catch(error => console.log(error))
-        .finally(this.setState({ isLoading: false }));
+        .then(pictures => {
+          this.setState({ isLoading: false });
+
+          if (pictures.hits.length === 0) {
+            return alert('No images found. Try again');
+            // return toast.error('No image was found for the request');
+          }
+
+          this.setState({ images: pictures.hits, totalHits: pictures.totalHits })
+        })
+        .catch(error => console.log(error));  
     }
   }
 
@@ -56,13 +66,13 @@ class App extends Component{
   render() {    
     const { images, isLoading, showModal, largeImage, alt, totalHits, page } = this.state; 
 
-    console.log('alt', this.state.alt);
+    // console.log('alt', this.state.alt);
     const perPage = totalHits > 12 && page < Math.ceil(totalHits / 12);
 
     return (
-      <div className={css.App} >
-        <Searchbar onSubmit={this.handleOnSearchbarSubmit} />
-        
+      <div className={css.App} >        
+        <Searchbar onSubmit={this.handleOnSearchbarSubmit} />        
+        <ToastContainer autoClose={2500} closeOnClick />
         {isLoading 
           ? <Loader />
           : <ImageGallery>
@@ -70,10 +80,10 @@ class App extends Component{
           </ImageGallery>
         }
 
-        {perPage && <Button onClick={ this.loadMoreHandler } />}
-        
+        {perPage && <Button onClick={ this.loadMoreHandler } />}        
 
         {showModal && <Modal onClose={this.toggleModal} largeImage={largeImage} alt={alt} />}
+        
       </div>
     )
   }
