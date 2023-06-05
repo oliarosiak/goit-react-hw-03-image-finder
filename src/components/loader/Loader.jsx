@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import { Vortex } from 'react-loader-spinner';
-// import css from './ImageGalleryItem.module.css';
-
 
 class Loader extends Component{
-
-    render() {
-        
+    render() {        
         return (
             <Vortex
                 visible={true}

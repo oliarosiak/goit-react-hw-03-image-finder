@@ -30,12 +30,16 @@ import Modal from "./modal/Modal";
 class App extends Component{
   state = {
     images: [],
+    isLoading: false,
     error: null,
     showModal: false,
     largeImage: '',
   }
 
   async componentDidMount() {
+
+    this.setState({ isLoading: true });
+
     try {
       const response = await axios.get('https://pixabay.com/api/?q=cat&page=1&key=25738423-b3273d9a56f64cc8a00238b49&image_type=photo&orientation=horizontal&per_page=12');
       this.setState({images: response.data.hits})
@@ -44,6 +48,8 @@ class App extends Component{
       // console.log(response.data.hits);
     } catch(error) {
       console.error('error.message =>', error.message);
+    } finally {
+      this.setState({ isLoading: false });
     }
   }
 
@@ -54,32 +60,41 @@ class App extends Component{
   }
 
   onImageClick = url => {
-    console.log('url', url);
+    // console.log('url', url);
     this.setState({ largeImage: url });
     this.toggleModal();
   }
 
 
   render() {    
-    const { images, showModal, largeImage } = this.state;    
-    console.log(images);
+    const { images, isLoading, showModal, largeImage } = this.state;    
+    // console.log('this.state.images =>', images);
 
     return (
       <div className={css.App} >
-        <Loader /> 
+        <Searchbar />
+        
+        {isLoading
+          ? <Loader />
+          : <ImageGallery>
+              <ImageGalleryItem arrayOfImages={images} onClick={this.onImageClick} />
+          </ImageGallery>
+        }        
+        <Button />
 
         {/* <button type="button" onClick={this.toggleModal}>Open</button>         */}
-        {showModal && <Modal onClose={this.toggleModal} largeImage={largeImage} />}
-
-        <Searchbar />        
-        <ImageGallery>
-          <ImageGalleryItem arrayOfImages={images} onClick={this.onImageClick} />
-        </ImageGallery>
-        <Button /> 
-       
+        {showModal && <Modal onClose={this.toggleModal} largeImage={largeImage} />}       
       </div>
     )
   }
 }
 
 export default App;
+
+        // /* <Loader /> 
+
+        // <Searchbar />    
+        
+        // <ImageGallery>
+        //   <ImageGalleryItem arrayOfImages={images} onClick={this.onImageClick} />
+        // </ImageGallery> */

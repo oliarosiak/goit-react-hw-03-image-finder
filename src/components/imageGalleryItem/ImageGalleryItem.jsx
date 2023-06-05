@@ -10,8 +10,9 @@ class ImageGalleryItem extends Component{
             <>
                 {arrayOfImages.map(({ id, webformatURL, largeImageURL }) => {
                     return <li key={id} className={css.ImageGalleryItem}>
-                        <img src={webformatURL} alt="small pictures preview" className={css.ImageGalleryItemImage} onClick={() => onClick(largeImageURL)} />
-                            </li>
+                        <img src={webformatURL} alt="small pictures preview"
+                            className={css.ImageGalleryItemImage} onClick={() => onClick(largeImageURL)} />
+                    </li>
                 })}
             </>
         );
