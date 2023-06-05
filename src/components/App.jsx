@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import css from './App.module.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 import { fetchPixabeyRequest } from './api/pixabayApi.js';
 import Searchbar from "./searchbar/Searchbar";
@@ -72,7 +72,7 @@ class App extends Component{
     return (
       <div className={css.App} >        
         <Searchbar onSubmit={this.handleOnSearchbarSubmit} />        
-        <ToastContainer autoClose={2500} closeOnClick />
+        {/* <ToastContainer autoClose={2500} closeOnClick /> */}
         {isLoading 
           ? <Loader />
           : <ImageGallery>
