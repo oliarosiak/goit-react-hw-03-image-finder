@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { toast } from 'react-toastify';
 import { BsSearchHeartFill } from 'react-icons/bs';
+import PropTypes from 'prop-types';
 import css from './Searchbar.module.css';
 
 class Searchbar extends Component {
@@ -27,8 +28,7 @@ class Searchbar extends Component {
             <header className={css.Searchbar}>
                 <form onSubmit={this.submitHeandler} className={css.SearchForm}>
                     <button type="submit" className={css.SearchFormButton}>
-                        <BsSearchHeartFill className={css.SearchFormButtonLabel} />                        
-                        {/* <FcSearch className={css.SearchFormButtonLabel} />                         */}
+                        <BsSearchHeartFill className={css.SearchFormButtonLabel} /> 
                     </button>
 
                     <input
@@ -45,6 +45,10 @@ class Searchbar extends Component {
             </header>
         )
     }
+}
+
+Searchbar.propTypes = {   
+    onSubmit: PropTypes.func.isRequired,
 }
 
 export default Searchbar;       

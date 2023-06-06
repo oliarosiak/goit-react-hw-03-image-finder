@@ -10,7 +10,7 @@ const Loader = () => (
             ariaLabel="vortex-loading"
             wrapperStyle={{}}
             wrapperClass="vortex-wrapper"
-            colors={['#003f5c', '#444e86', '#955196', '#dd5182', '#ff6e54', '#ffa600']}
+            colors={['#feac5e', '#c779d0', '#4bc0c8', '#ffa600', '#f16fb9', '#37c6ae']}
         />
     </div>
 )

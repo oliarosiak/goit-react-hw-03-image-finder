@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import css from './App.module.css';
 
-import { fetchPixabeyRequest } from '../api/fetchPixabeyRequest';
+import { fetchPixabayRequest } from '../api/fetchPixabayRequest';
 import Searchbar from "./searchbar/Searchbar";
 import Loader from "./loader/Loader";
 import ImageGallery from "./imageGallery/ImageGallery";
@@ -28,7 +28,7 @@ class App extends Component{
     if (searchQuery !== prevState.searchQuery || pageNumber !== prevState.pageNumber) {
       this.setState({ isLoading: true });    
       
-      fetchPixabeyRequest(searchQuery, pageNumber).then(data => {
+      fetchPixabayRequest(searchQuery, pageNumber).then(data => {
       
         this.setState({ isLoading: false });
         this.setState({ totalHits: data.totalHits });
