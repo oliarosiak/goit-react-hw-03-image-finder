@@ -1,46 +1,40 @@
 import React, { Component } from "react";
+import { toast } from 'react-toastify';
+import { BsSearchHeartFill } from 'react-icons/bs';
 import css from './Searchbar.module.css';
 
-class Searchbar extends Component{
+class Searchbar extends Component {
     state = {
-        userSearch: '',
-        search: '',
+        searchQuery: '',
     }
 
-    handleInputChange = event => {
-        this.setState({
-            userSearch: event.currentTarget.value,
-            search: event.currentTarget.value.toLowerCase()
-        });
+    inputHeandler = event => {
+        const searchQuery = event.currentTarget.value.toLowerCase();
+        this.setState({ searchQuery });   
     }
 
-    handleFormSubmite = event => {
-        event.preventDefault();         
-
-        if (this.state.search.trim() === '') {
-            alert('Please enter a search query');
-            return;
+    submitHeandler = event => {
+        event.preventDefault();
+        if (this.state.searchQuery.trim() === '') {
+            return toast('Wow, wow! Hold on! Enter the request');
         }
+        this.props.onSubmit(this.state.searchQuery);
+        this.setState({ searchQuery: '' });      
+    }
 
-        this.props.onSubmit(this.state.search);
-        this.setState({
-            userSearch: '',
-            search: '',
-        });
-    }    
-
-    render() {
+    render() {        
         return (
             <header className={css.Searchbar}>
-                <form onSubmit={this.handleFormSubmite} className={css.SearchForm}>
+                <form onSubmit={this.submitHeandler} className={css.SearchForm}>
                     <button type="submit" className={css.SearchFormButton}>
-                        <span className={css.SearchFormButtonLabel}>Search</span>
+                        <BsSearchHeartFill className={css.SearchFormButtonLabel} />                        
+                        {/* <FcSearch className={css.SearchFormButtonLabel} />                         */}
                     </button>
 
                     <input
                         name="search"
-                        value={this.state.userSearch}
-                        onChange={this.handleInputChange}
+                        value={this.state.searchQuery}
+                        onChange={this.inputHeandler}
                         className={css.SearchFormInput}
                         type="text"
                         autoComplete="off"
@@ -51,6 +45,6 @@ class Searchbar extends Component{
             </header>
         )
     }
-};
+}
 
 export default Searchbar;       
