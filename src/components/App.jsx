@@ -1,47 +1,61 @@
 import React, { Component } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import css from './App.module.css';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 
-import { fetchPixabeyRequest } from './api/pixabayApi.js';
+import { fetchPixabeyRequest } from '../api/fetchPixabeyRequest';
 import Searchbar from "./searchbar/Searchbar";
+import Loader from "./loader/Loader";
 import ImageGallery from "./imageGallery/ImageGallery";
 import ImageGalleryItem from "./imageGalleryItem/ImageGalleryItem";
-import Button from "./button/Button";
-import Loader from "./loader/Loader";
 import Modal from "./modal/Modal";
+import Button from "./button/Button";
 
 class App extends Component{
   state = {
+    searchQuery: '',
     images: [],
-    isLoading: false,
-    error: null,
-    showModal: false,
-    largeImage: '',
-    alt: '',
-    search: '',
-    page: null,
+    pageNumber: 1,
     totalHits: null,
+    isLoading: false,
+    showModal: false,
+    modalDescription: {},
   }
 
   componentDidUpdate(_, prevState) {
-
-    if (this.state.page !== prevState.page || prevState.search !== this.state.search) {      
-      this.setState({ isLoading: true });
+    const { searchQuery, pageNumber } = this.state; 
+    
+    if (searchQuery !== prevState.searchQuery || pageNumber !== prevState.pageNumber) {
+      this.setState({ isLoading: true });    
       
-      fetchPixabeyRequest(this.state.search, this.state.page)
-        .then(pictures => {
-          this.setState({ isLoading: false });
+      fetchPixabeyRequest(searchQuery, pageNumber).then(data => {
+      
+        this.setState({ isLoading: false });
+        this.setState({ totalHits: data.totalHits });
 
-          if (pictures.hits.length === 0) {
-            return alert('No images found. Try again');
-            // return toast.error('No image was found for the request');
+        if (data.hits.length === 0) {          
+          return toast.error(`There are no matches for the request ${searchQuery}! Try another query!`);
+        }
+        
+        this.setState(prevState => {
+          return {
+            images: [...prevState.images, ...data.hits],
           }
-
-          this.setState({ images: pictures.hits, totalHits: pictures.totalHits })
-        })
-        .catch(error => console.log(error));  
+        });
+      });
     }
+  }
+
+  searchbarHandler = searchQuery => {
+    this.setState({ searchQuery, pageNumber: 1, images: [], totalHits: null }); 
+  }
+  
+  buttonHandler = () => {   
+    this.setState(prevState => {
+      return {
+        pageNumber: prevState.pageNumber + 1,
+      }
+    })
   }
 
   toggleModal = () => {
@@ -50,40 +64,29 @@ class App extends Component{
     }));
   }
 
-  onImageClick = (url, alt) => {
-    this.setState({ largeImage: url, alt });
-    this.toggleModal();
+  imageClickHandler = (src, alt) => {
+    const description = {
+      src,
+      alt
+    };
+    this.setState({ modalDescription: { ...description } });
+    this.toggleModal();  
   }
 
-  handleOnSearchbarSubmit = search => {  
-    this.setState({ search, page: 1 });
-  }
-
-  loadMoreHandler = (page) => {
-    this.setState({ page });
-  }
-
-  render() {    
-    const { images, isLoading, showModal, largeImage, alt, totalHits, page } = this.state; 
-
-    // console.log('alt', this.state.alt);
-    const perPage = totalHits > 12 && page < Math.ceil(totalHits / 12);
+  render() {
+    const { images, pageNumber, totalHits, isLoading, showModal, modalDescription } = this.state;
+    const loadMoreBtn = totalHits > 12 && pageNumber < Math.ceil(totalHits / 12);
 
     return (
-      <div className={css.App} >        
-        <Searchbar onSubmit={this.handleOnSearchbarSubmit} />        
-        {/* <ToastContainer autoClose={2500} closeOnClick /> */}
-        {isLoading 
-          ? <Loader />
-          : <ImageGallery>
-            <ImageGalleryItem arrayOfImages={images} onClick={this.onImageClick} />
-          </ImageGallery>
-        }
-
-        {perPage && <Button onClick={ this.loadMoreHandler } />}        
-
-        {showModal && <Modal onClose={this.toggleModal} largeImage={largeImage} alt={alt} />}
-        
+      <div className={css.App}>
+        <ToastContainer autoClose={2000} closeOnClick />
+        <Searchbar onSubmit={this.searchbarHandler} />
+        {isLoading && <Loader />}
+        <ImageGallery>
+          <ImageGalleryItem arrayOfImages={images} onImageClick={this.imageClickHandler} />
+        </ImageGallery>
+        {showModal && <Modal onCloseModal={this.toggleModal} imageData={modalDescription} />}
+        {loadMoreBtn && <Button onButtonClick={this.buttonHandler} />}
       </div>
     )
   }
