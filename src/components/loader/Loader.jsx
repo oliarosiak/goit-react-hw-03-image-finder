@@ -1,27 +1,18 @@
-import React, { Component } from "react";
 import { Vortex } from 'react-loader-spinner';
+import css from './Loader.module.css';
 
-class Loader extends Component{
-    render() {        
-        return (
-            <Vortex
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="vortex-loading"
-                wrapperStyle={{}}
-                wrapperClass="vortex-wrapper"
-                colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-            />
-        )
-    }
-}
+const Loader = () => (
+    <div className={css.Loader}>
+        <Vortex
+            visible={true}
+            height="200"
+            width="200"
+            ariaLabel="vortex-loading"
+            wrapperStyle={{}}
+            wrapperClass="vortex-wrapper"
+            colors={['#003f5c', '#444e86', '#955196', '#dd5182', '#ff6e54', '#ffa600']}
+        />
+    </div>
+)
 
 export default Loader;
-
-/**
- * Опис компонента <Loader>
- * Компонент спінера відображається, доки відбувається завантаження зображень. 
- * Використовуйте будь-який готовий компонент, 
- * наприклад react-loader-spinner або будь-який інший.
- */
